@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Login Option</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="galaxy"><div class="stars"></div>
+<div class="twinkling"></div>
+<div class="glow-overlay"></div>
+
+    <div class="login-box">
+        <div class="star-field">
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+</div>
+
+        <img src="{{ url_for('static', filename='logo.jpg') }}" class="logo">
+        <h2>Select Login Method</h2>
+        <div class="btn-group">
+            <a href="/login/username" class="btn">Username</a>
+            <a href="/login/name" class="btn">Name</a>
+            <a href="/login/regno" class="btn">Register Number</a>
+            <a href="/login/primary" class="btn">Primary Email</a>
+            <a href="/login/secondary" class="btn">Secondary Email</a>
+        </div>
+    </div>
+</body>
+</html>
