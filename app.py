@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, s
 import os
 
 app = Flask(__name__)
-app.secret_key = 'mysecret'
+app.secret_key = os.environ.get('SECRET_KEY', 'mysecret')  # set SECRET_KEY in Render env for production
 
 users = {
     "KRISH": {
@@ -251,5 +251,7 @@ def back():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
 
