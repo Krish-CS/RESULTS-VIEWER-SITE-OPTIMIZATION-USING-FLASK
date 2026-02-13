@@ -1,0 +1,27 @@
+# Render service manifest -- creates a Python Web Service for this Flask app
+# - Edit envVars (SECRET_KEY, any DB/OAUTH keys) from Render dashboard after linking the repo
+# - Render will auto-detect this file and create the service when you "Create a new service from repo".
+
+services:
+  - type: web
+    name: results-viewer
+    env: python
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        # leave value empty here; set a secure value in Render dashboard
+        value: ""
+        sync: false
+      - key: FLASK_DEBUG
+        value: "False"
+        sync: false
+
+# Optional managed Postgres (uncomment if you want a DB provisioned automatically)
+# databases:
+#   - name: results-db
+#     plan: free
+#     region: oregon
