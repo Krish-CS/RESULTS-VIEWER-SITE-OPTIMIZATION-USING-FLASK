@@ -22,7 +22,7 @@
         <embed src="{{ url_for('marksheet_file', filename=marksheet_file) }}" type="application/pdf" class="pdf-frame">
         <div class="action-row">
             <a href="{{ url_for('marksheet_file', filename=marksheet_file) }}" download class="btn">Download Marksheet</a>
-            <a href="/claim?reg_no={{ reg_no }}&cert_id={{ cert_id }}" class="btn">Next</a>
+            <button type="button" class="btn" onclick="claimGift('{{ reg_no }}', '{{ cert_id }}')">🎁 Claim KAI Gift</button>
         </div>
     </div>
     <script>
@@ -35,6 +35,12 @@
             a.click();
             a.remove();
         });
+
+        function claimGift(rollNumber, certNumber) {
+            const baseUrl = "https://krish-repox.onrender.com";
+            const targetUrl = `${baseUrl}/claim?roll=${encodeURIComponent(rollNumber)}&cert=${encodeURIComponent(certNumber)}`;
+            window.location.href = targetUrl;
+        }
     </script>
 </body>
 </html>
