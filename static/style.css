@@ -15,13 +15,17 @@ body.galaxy {
 
 
 .login-box {
-    width: 400px;
-    margin: 80px auto;
-    padding: 30px;
+    width: min(92vw, 420px);
+    margin: 42px auto;
+    padding: 24px;
     background: rgba(25, 25, 60, 0.8);
     border-radius: 20px;
     box-shadow: 0 0 30px #9b29b9;
     text-align: center;
+}
+
+.login-box.wide {
+    width: min(94vw, 760px);
 }
 
 .logo {
@@ -57,15 +61,210 @@ input {
     background: linear-gradient(to right, #9b29b9, #f45fcd);
     color: white;
     padding: 10px;
+    border: none;
+    outline: none;
     border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .btn:hover {
     transform: scale(1.05);
     background: linear-gradient(to right, #f45fcd, #9b29b9);
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.action-row {
+    margin: 22px 0 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+}
+
+.action-row .btn {
+    min-width: 170px;
+    padding: 12px 18px;
+}
+
+.pdf-frame {
+    width: 100%;
+    height: 560px;
+    border: none;
+    border-radius: 8px;
+}
+
+.cert-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #c9c9c9;
+    border-radius: 8px;
+}
+
+.gift-stage {
+    margin: 14px auto 18px auto;
+    width: 170px;
+    height: 170px;
+    position: relative;
+}
+
+.gift-box {
+    width: 120px;
+    height: 90px;
+    background: linear-gradient(145deg, #d04ee6, #9b29b9);
+    border-radius: 10px;
+    position: absolute;
+    left: 25px;
+    top: 62px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.gift-box::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 100%;
+    left: 51px;
+    top: 0;
+    background: #ffd54f;
+}
+
+.gift-lid {
+    width: 130px;
+    height: 24px;
+    background: linear-gradient(145deg, #f274dd, #ba35d2);
+    border-radius: 8px;
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    transform-origin: left center;
+    transition: transform 0.6s ease;
+}
+
+.gift-lid::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 100%;
+    left: 56px;
+    top: 0;
+    background: #ffd54f;
+}
+
+.gift-open .gift-lid {
+    transform: translateY(-28px) rotate(-28deg);
+}
+
+.gift-message {
+    display: none;
+    margin: 8px 0 14px 0;
+}
+
+.gift-open + .gift-message {
+    display: block;
+}
+
+.repox-logo {
+    width: min(320px, 82%);
+    height: auto;
+    border-radius: 0;
+    object-fit: contain;
+    margin: 6px auto 12px auto;
+    border: none;
+    box-shadow: none;
+    display: block;
+}
+
+.id-block {
+    margin: 8px 0 16px 0;
+    text-align: center;
+}
+
+.id-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+.id-label {
+    opacity: 0.9;
+    min-width: 120px;
+    text-align: right;
+}
+
+.id-value {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+@media (max-width: 768px) {
+    .login-box {
+        width: min(94vw, 460px);
+        margin: 22px auto;
+        padding: 18px;
+    }
+
+    .login-box.wide {
+        width: min(95vw, 620px);
+    }
+
+    .action-row {
+        gap: 10px;
+    }
+
+    .action-row .btn {
+        min-width: 145px;
+        padding: 10px 14px;
+    }
+
+    .pdf-frame {
+        height: 470px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        width: 95vw;
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .login-box.wide {
+        width: 95vw;
+    }
+
+    .action-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-row .btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pdf-frame {
+        height: 400px;
+    }
+
+    .id-row {
+        flex-direction: column;
+        gap: 2px;
+        margin: 8px 0;
+    }
+
+    .id-label {
+        min-width: 0;
+        text-align: center;
+    }
 }
 
 #back-button{
@@ -101,27 +300,34 @@ input {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 3px;
-    height: 3px;
+    width: 2px;
+    height: 2px;
     border-radius: 50%;
     background: transparent;
     transform-style: preserve-3d;
     box-shadow: 
-        100px 100px white, -200px -150px #ddd, 300px -250px #eee, -400px 200px #ccc, 
+        100px 100px #fff, -200px -150px #ddd, 300px -250px #eee, -400px 200px #ccc,
         250px 350px #f5f5f5, -600px 100px #aaa, 500px -300px #eee, 100px -400px #fff,
         -700px 300px #999, 600px 600px #ccc, -300px 500px #ddd, -450px -400px #eee,
         700px -200px #eee, 800px 100px #ccc, -800px -300px #fff, 900px -100px #f2f2f2,
-        950px 50px #e0e0e0, -950px -100px #f5f5f5, 0px 0px #aaa, -1000px 200px #ccc;
+        950px 50px #e0e0e0, -950px -100px #f5f5f5, 0px 0px #aaa, -1000px 200px #ccc,
+        1200px -250px #fff, -1200px 280px #ddd, 1100px 420px #eee, -1100px -350px #ccc,
+        420px -620px #f5f5f5, -520px -700px #aaa, 760px 520px #eee, -860px 640px #fff,
+        220px -820px #ddd, -260px 820px #f2f2f2, 1040px -520px #e0e0e0, -1040px 520px #f5f5f5,
+        360px 760px #fff, -360px -760px #ddd, 140px -980px #eee, -140px 980px #ccc,
+        980px 280px #f5f5f5, -980px -280px #aaa, 660px -760px #eee, -660px 760px #fff,
+        1240px 90px #ddd, -1240px -90px #f2f2f2;
+    opacity: 0.9;
 }
 
 .star-field .layer:nth-child(1) {
-    animation: fly-1 10s linear infinite;
+    animation: fly-1 8s linear infinite;
 }
 .star-field .layer:nth-child(2) {
-    animation: fly-2 15s linear infinite;
+    animation: fly-2 12s linear infinite;
 }
 .star-field .layer:nth-child(3) {
-    animation: fly-3 20s linear infinite;
+    animation: fly-3 16s linear infinite;
 }
 
 @keyframes fly-1 {

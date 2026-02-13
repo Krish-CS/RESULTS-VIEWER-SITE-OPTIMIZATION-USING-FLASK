@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result for {{ name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="galaxy">
+    <div class="login-box">
+        <h2>Hello {{ name }} 🎓</h2>
+        <p>Your certificate and marksheet will start downloading automatically. Use the button to view the marksheet or claim your gift.</p>
+
+        <h3>Certificate</h3>
+        <img id="certificate-img" src="{{ url_for('certificate_file', filename=cert_file) }}" alt="Certificate" style="max-width:100%;height:auto;border:1px solid #ccc;">
+        <p><a id="download-cert" href="{{ url_for('certificate_file', filename=cert_file) }}" download>Download Certificate</a></p>
+
+        <div style="margin-top:18px;">
+            <button id="next-btn" class="btn">Next</button>
+        </div>
+
+        <div id="marksheet-wrap" style="display:none;margin-top:18px;">
+            <h3>Marksheet</h3>
+            <embed id="marksheet-embed" src="{{ url_for('marksheet_file', filename=marksheet_file) }}" type="application/pdf" width="100%" height="600px"></embed>
+            <p><a id="download-marks" href="{{ url_for('marksheet_file', filename=marksheet_file) }}" download>Download Marksheet</a></p>
+        </div>
+
+        <a href="/" class="btn">Home</a>
+    </div>
+
+    <script>
+        // auto-download both files when page loads
+        function downloadFile(url, filename){
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        window.addEventListener('load', function(){
+            const certUrl = "{{ url_for('certificate_file', filename=cert_file) }}";
+            const marksUrl = "{{ url_for('marksheet_file', filename=marksheet_file) }}";
+            // trigger downloads (certificate + marksheet)
+            downloadFile(certUrl, '{{ cert_file }}');
+            downloadFile(marksUrl, '{{ marksheet_file }}');
+        });
+
+        // Next button: reveal marksheet, then change to claim button
+        const nextBtn = document.getElementById('next-btn');
+        const marksWrap = document.getElementById('marksheet-wrap');
+        let step = 0;
+        nextBtn.addEventListener('click', function(){
+            if(step === 0){
+                // show marksheet
+                marksWrap.style.display = 'block';
+                nextBtn.textContent = 'Claim your gift';
+                step = 1;
+            } else {
+                // go to claim page with reg_no and email in query
+                const q = new URLSearchParams({reg_no: '{{ reg_no }}', email: '{{ email }}'}).toString();
+                window.open('/claim?' + q, '_blank');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim your gift</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="galaxy">
+  <div class="stars"></div>
+  <div class="twinkling"></div>
+  <div class="glow-overlay"></div>
+  <div class="star-field">
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+  </div>
+
+  <div class="login-box wide">
+    <h2>Repox Gift Claim</h2>
+    <img src="{{ url_for('static', filename='assessts/gift-logo.png') }}" alt="Repox Logo" class="repox-logo">
+    <div class="id-block">
+      <div class="id-row">
+        <span class="id-label">Register ID:</span>
+        <span class="id-value">{{ reg_no }}</span>
+      </div>
+      <div class="id-row">
+        <span class="id-label">Certificate ID:</span>
+        <span class="id-value">{{ cert_id }}</span>
+      </div>
+    </div>
+
+    <div id="giftStage" class="gift-stage">
+      <div id="giftBox" class="gift-box-wrap">
+        <div class="gift-lid"></div>
+        <div class="gift-box"></div>
+      </div>
+      <p class="gift-message" id="giftMessage"><strong>Claim your Repox gift 🎁</strong></p>
+    </div>
+
+    <div class="action-row">
+      <button id="openGift" class="btn">Open Gift Box</button>
+      <button id="googleSign" class="btn" style="display:none;">Claim via Google</button>
+    </div>
+
+    <div id="status">Open the gift box to continue.</div>
+    <p id="result" style="margin-top:12px"></p>
+
+    <div class="action-row">
+      <a href="/" class="btn">Home</a>
+    </div>
+  </div>
+
+  <script type="module">
+    // Firebase config (from user)
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
+    import { getFirestore, setDoc, doc } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBPzVaK0uKgI-JpPpAzWnSQC5xmAE-N5sA",
+      authDomain: "repox-df752.firebaseapp.com",
+      projectId: "repox-df752",
+      storageBucket: "repox-df752.firebasestorage.app",
+      messagingSenderId: "353516802488",
+      appId: "1:353516802488:web:353ed30c3d8dcb79a4ff4d",
+      measurementId: "G-HZVRP0RV7J"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const provider = new GoogleAuthProvider();
+    const openGiftBtn = document.getElementById('openGift');
+    const googleBtn = document.getElementById('googleSign');
+    const giftBox = document.getElementById('giftBox');
+    const giftMessage = document.getElementById('giftMessage');
+    const statusEl = document.getElementById('status');
+
+    openGiftBtn.addEventListener('click', () => {
+      giftBox.classList.add('gift-open');
+      giftMessage.style.display = 'block';
+      googleBtn.style.display = 'inline-block';
+      openGiftBtn.style.display = 'none';
+      statusEl.textContent = 'Gift opened! Claim your Repox gift using Google sign-in.';
+    });
+
+    googleBtn.addEventListener('click', async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const regNo = new URLSearchParams(location.search).get('reg_no') || '';
+        const certId = new URLSearchParams(location.search).get('cert_id') || '';
+        const email = user.email || '';
+
+        // store claim in Firestore (collection: claims, doc id: user.uid)
+        await setDoc(doc(db, 'claims', user.uid), {
+          uid: user.uid,
+          name: user.displayName || null,
+          email: email,
+          reg_no: regNo,
+          certificate_id: certId,
+          timestamp: new Date().toISOString()
+        });
+
+        statusEl.textContent = 'Signed in as ' + (user.displayName || user.email);
+        document.getElementById('result').innerHTML = '<strong>Claim recorded.</strong> You can now use the other app.';
+      } catch (err) {
+        console.error(err);
+        document.getElementById('result').textContent = 'Sign-in failed: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

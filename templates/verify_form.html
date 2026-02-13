@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="galaxy">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="glow-overlay"></div>
+    <div class="star-field">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+
+    <div class="login-box">
+        <h2>Enter Register Number & Email</h2>
+        <form method="POST">
+            <input type="text" name="regno" placeholder="Register Number (e.g. 8115U23CS001)" required>
+            <input type="email" name="email" placeholder="Your email" required>
+            <button type="submit" class="btn">View Result</button>
+        </form>
+        <div class="action-row">
+            <a href="/" class="btn">Back</a>
+        </div>
+    </div>
+</body>
+</html>
