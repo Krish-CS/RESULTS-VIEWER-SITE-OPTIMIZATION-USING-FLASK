@@ -4,9 +4,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result for {{ name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .view-result-box {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        #certificate-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: block;
+            margin: 10px auto;
+        }
+        
+        #marksheet-embed {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 480px) {
+            #marksheet-embed {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body class="galaxy">
-    <div class="login-box">
+    <div class="login-box wide view-result-box">
         <h2>Hello {{ name }} 🎓</h2>
         <p>Your certificate and marksheet will start downloading automatically. Use the button to view the marksheet or claim your gift.</p>
 

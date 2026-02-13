@@ -4,6 +4,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .result-embed {
+            width: 100%;
+            height: 600px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 480px) {
+            .result-embed {
+                height: 400px;
+            }
+        }
+    </style>
     <script>
         window.onload = function () {
             const link = document.createElement('a');
@@ -23,11 +37,13 @@
 <div class="twinkling"></div>
 <div class="glow-overlay"></div>
 
-    <div class="login-box">
+    <div class="login-box wide">
         <h2>Hello {{ user }} 🎓</h2>
         <p>Your result is displayed below and has started downloading automatically.</p>
-        <embed src="{{ url_for('static', filename=pdf) }}" type="application/pdf" width="100%" height="600px">
-        <a href="/logout" class="btn">Logout</a>
+        <embed src="{{ url_for('static', filename=pdf) }}" type="application/pdf" class="result-embed">
+        <div class="action-row">
+            <a href="/logout" class="btn">Logout</a>
+        </div>
     </div>
 </body>
 </html>
